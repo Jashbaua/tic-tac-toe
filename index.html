@@ -12,12 +12,12 @@
         <div class="controls">
             <button id="newGameButton">New game</button>
             <label for="player1">Player 1:</label>
-            <input type="text" name="player1" id="player1">
+            <input type="text" name="player1" id="player1" maxlength="12">
             <label for="player2">Player 2:</label>
-            <input type="text" name="player2" id="player2">
+            <input type="text" name="player2" id="player2" maxlength="12">
         </div>
         <div class="game">
-            <div class="score"><span>Player1: 0</span> <span>Player2: 0</span></div>
+            <div class="score"><span><span id="player1name">Player1</span>: <span id="player1score">0</span></span><span class="result"></span> <span><span id="player2name">Player2</span>: <span id="player2score">0</span></span></div>
             <div class="board">
                 <div class="cell"><img src="assets/cross.svg" alt="circle"></div>
                 <div class="cell"></div>

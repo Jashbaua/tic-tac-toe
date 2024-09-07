@@ -58,7 +58,7 @@ main{
     flex-direction: column;
 }
 .score{
-    font-size: 2.5rem;
+    font-size: 2rem;
     display: flex;
     justify-content: space-between;
 }

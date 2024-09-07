@@ -110,7 +110,9 @@ const Game=(function(){
                 board.push('-')
             }
         }
-        return {create,print,checkWin,updateMove,isFinished,isValidMove,reset}
+
+        function getBoard(){}
+        return {create,print,checkWin,updateMove,isFinished,isValidMove,reset,getBoard}
     })()
 
     let player1
@@ -119,8 +121,8 @@ const Game=(function(){
     let startPlayer
 
     function start(){
-        player1={name:'player1',score:'0'}
-        player2={name:'player2',score:'0'}
+        player1={name:'Player1',score:'0'}
+        player2={name:'Player2',score:'0'}
         activePlayer=player1
         startPlayer=player1
         Board.reset()
@@ -157,7 +159,6 @@ const Game=(function(){
         if(Board.isFinished()){
             printTie()
             Board.print
-            printScore()
             Board.reset()
             toggleStartPlayer()
             activePlayer=startPlayer
@@ -166,13 +167,63 @@ const Game=(function(){
             printWinner(activePlayer)
             activePlayer.score++
             Board.print()
-            printScore()
             Board.reset()
             toggleStartPlayer()
             activePlayer=startPlayer
         }
         else toggleActivePlayer()
+        printScore()
         Board.print()
     }
-    return {start,setPlayer1Name,setPlayer2Name,playMove}
+    function getPlayer1(){return {...player1}}
+    function getPlayer2(){return {...player2}}
+    return {start,setPlayer1Name,setPlayer2Name,getPlayer1,getPlayer2,playMove,getBoard:Board.getBoard}
 })()
+
+const Ui=(function(){
+
+    //DOM cache
+    const newGameBtn=document.querySelector('#newGameButton')
+    const player1inp=document.querySelector('#player1')
+    const player2inp=document.querySelector('#player2')
+    const board=document.querySelector('.board')
+    const player1name=document.querySelector('#player1name')
+    const player2name=document.querySelector('#player2name')
+    const player1score=document.querySelector('#player1score')
+    const player2score=document.querySelector('#player2score')
+
+
+    //Binding events
+    newGameBtn.addEventListener('click',newGame)
+    player1inp.addEventListener('input',updateName)
+    player2inp.addEventListener('input',updateName)
+    board.addEventListener('click',sendMove)
+
+    function renderGame(){
+        let board=Game.getBoard()
+        let player1=Game.getPlayer1()
+        let player2=Game.getPlayer2()
+        player1name.textContent=player1.name
+        player2name.textContent=player2.name
+        player1score.textContent=player1.score
+        player2score.textContent=player2.score
+    }
+
+    function newGame(){}
+
+    function updateName(e){
+        let value=e.target.value
+        if(e.target.id=='player1'){
+            Game.setPlayer1Name(value==''?'Player1':value)
+        }
+        else Game.setPlayer2Name(value==''?'Player2':value)
+        renderGame()
+    }
+
+    function sendMove(){}
+
+    return{renderGame}
+
+})()
+
+Game.start()
