@@ -1,0 +1,18 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+  
+*{
+margin: 0;
+}
+
+ol[role="list"], ul[role="list"] {
+list-style: none;
+padding-inline: 0;
+}
+
+p, h1, h2, h3, h4, h5, h6, input, button, textarea, select {
+font: inherit;
+overflow-wrap: break-word;
+/* hyphens: auto; */
+}
