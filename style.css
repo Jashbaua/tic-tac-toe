@@ -71,6 +71,10 @@ main{
     grid-template: 1fr 1fr 1fr/1fr 1fr 1fr;
     gap: 10px;
 }
+.status{
+    align-self: center;
+    font-size: 4rem;
+}
 .cell{
     background-color: rgb(223, 255, 134);
 }

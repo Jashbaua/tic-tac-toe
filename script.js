@@ -4,12 +4,6 @@ const Game=(function(){
 
         let board=[]
 
-        function create(){
-            for(let i=0;i<9;i++){
-                board.push('-')
-            }
-        }
-
         function print(){
             for(let i=0;i<3;i++){
                 let row=[]
@@ -111,8 +105,8 @@ const Game=(function(){
             }
         }
 
-        function getBoard(){}
-        return {create,print,checkWin,updateMove,isFinished,isValidMove,reset,getBoard}
+        function getBoard(){return [...board]}
+        return {print,checkWin,updateMove,isFinished,isValidMove,reset,getBoard}
     })()
 
     let player1
@@ -175,9 +169,15 @@ const Game=(function(){
         printScore()
         Board.print()
     }
+
     function getPlayer1(){return {...player1}}
     function getPlayer2(){return {...player2}}
-    return {start,setPlayer1Name,setPlayer2Name,getPlayer1,getPlayer2,playMove,getBoard:Board.getBoard}
+
+    function getStatus(){
+        return `${activePlayer.name}'s turn`
+    }
+
+    return {start,setPlayer1Name,setPlayer2Name,getPlayer1,getPlayer2,playMove,getBoard:Board.getBoard,getStatus}
 })()
 
 const Ui=(function(){
@@ -191,6 +191,7 @@ const Ui=(function(){
     const player2name=document.querySelector('#player2name')
     const player1score=document.querySelector('#player1score')
     const player2score=document.querySelector('#player2score')
+    const status=document.querySelector('.status')
 
 
     //Binding events
@@ -200,16 +201,33 @@ const Ui=(function(){
     board.addEventListener('click',sendMove)
 
     function renderGame(){
-        let board=Game.getBoard()
+        let currentBoard=Game.getBoard()
         let player1=Game.getPlayer1()
         let player2=Game.getPlayer2()
+        let currentStatus=Game.getStatus()
         player1name.textContent=player1.name
         player2name.textContent=player2.name
         player1score.textContent=player1.score
         player2score.textContent=player2.score
+        board.textContent=''
+        currentBoard.map(addCell)
+        status.textContent=currentStatus
     }
 
-    function newGame(){}
+    function addCell(value){
+        let cell=document.createElement('div')
+        cell.classList.add('cell')
+        board.appendChild(cell)
+        if(value=='x')
+            cell.innerHTML='<img src="assets/cross.svg" alt="cross">'
+        else if(value=='o')
+            cell.innerHTML='<img src="assets/circle.svg" alt="circle">'
+    }
+
+    function newGame(){
+        Game.start()
+        renderGame()
+    }
 
     function updateName(e){
         let value=e.target.value
